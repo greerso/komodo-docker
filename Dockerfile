@@ -40,7 +40,7 @@ RUN apt -y update && \
     zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN git clone https://github.com/jl777/komodo --branch dev && \
-    cd komodo
-RUN ./zcutil/fetch-params.sh
-RUN ./zcutil/build.sh -j
+RUN git clone https://github.com/jl777/komodo --branch dev
+# RUN ./zcutil/fetch-params.sh
+RUN cd komodo && \
+    ./zcutil/build.sh -j
