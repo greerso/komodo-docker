@@ -1,10 +1,10 @@
-FROM ubuntu:18.04 AS builder
+FROM debian:buster-slim AS builder
 
 ARG GITHUB_URL=https://github.com/jl777/komodo.git
 ARG GITHUB_BRANCH=dev
 
 RUN apt -y update && \
-    apt -y dist upgrade && \
+    apt -y dist-upgrade && \
     apt -y install \
     autoconf \
     automake \
