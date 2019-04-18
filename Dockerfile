@@ -12,7 +12,6 @@ RUN apt -y update && \
     bsdmainutils \
     build-essential \
     g++-multilib \
-    libboost-all-dev \
     libc6-dev \
     libdb++-dev \
     libcurl4-openssl-dev && \
