@@ -5,6 +5,7 @@ ARG GITHUB_BRANCH=dev
 
 RUN apt -y update && \
     apt -y dist-upgrade && \
+    apt -y install apt-utils && \
     apt -y install \
     autoconf \
     automake \
@@ -39,3 +40,7 @@ RUN apt -y update && \
     zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN git clone https://github.com/jl777/komodo --branch dev && \
+    cd komodo
+RUN ./zcutil/fetch-params.sh
+RUN ./zcutil/build.sh -j
