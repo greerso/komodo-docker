@@ -11,36 +11,27 @@ RUN apt -y update && \
     automake \
     bsdmainutils \
     build-essential \
-    clang \
-    cmake \
-    curl \
     g++-multilib \
-    git \
-    libdb++-dev \
     libboost-all-dev \
     libc6-dev \
-    libgtest-dev \
-    libcurl4-openssl-dev \
     libdb++-dev \
+    libcurl4-openssl-dev && \
     libprotobuf-dev \
     libqrencode-dev \
-    libqt4-dev \
-    libtool \
     libssl-dev \
+    libtool \
     m4 \
     ncurses-dev \
-    ntp \
-    ntpdate \
-    pkg-config \
     protobuf-compiler \
+    pkg-config \
     python \
     software-properties-common \
     unzip \
     wget \
-    zlib1g-dev && \
+    zlib1g-dev \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN git clone https://github.com/jl777/komodo --branch dev
+RUN git clone https://github.com/jl777/komodo --branch dev /komodo
 # RUN ./zcutil/fetch-params.sh
-RUN cd komodo && \
-    ./zcutil/build.sh -j
+ENV HOME /komodo
+#    ./zcutil/build.sh -j
