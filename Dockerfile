@@ -4,8 +4,8 @@ ARG GITHUB_REPO=jl777/komodo.git
 ARG GITHUB_BRANCH=dev
 
 RUN apt -y update && \
-    apt -y upgrade && \
-    apt -y install apt-utils && \
+#    apt -y upgrade && \
+#    apt -y install apt-utils && \
     apt -y install \
     autoconf \
     automake \
@@ -21,7 +21,7 @@ RUN apt -y update && \
     libtool \
     m4 \
     ncurses-dev \
-    protobuf-compiler \
+#    protobuf-compiler \
     pkg-config \
     python \
     software-properties-common \
