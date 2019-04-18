@@ -15,7 +15,7 @@ RUN apt -y update && \
     libc6-dev \
     libdb++-dev \
     libcurl4-openssl-dev && \
-    libprotobuf-dev \
+#    libprotobuf-dev \
     libqrencode-dev \
     libssl-dev \
     libtool \
