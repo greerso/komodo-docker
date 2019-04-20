@@ -34,7 +34,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
 RUN git clone https://github.com/$GITHUB_REPO --branch $GITHUB_BRANCH /komodo
 # RUN ./zcutil/fetch-params.sh
 ENV HOME /komodo
-RUN cd /komodo && /
+RUN cd /komodo && \
     ./autogen.sh && \
     ./configure --with-incompatible-bdb --with-gui || true && \
     ./zcutil/build.sh -j$(nproc)
