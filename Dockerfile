@@ -1,8 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.04 AS builder
 
 ARG GITHUB_REPO=jl777/komodo.git
 ARG GITHUB_BRANCH=dev
-
 RUN apt-get -y update && \
     apt-get -y dist-upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
@@ -32,9 +31,21 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN git clone https://github.com/$GITHUB_REPO --branch $GITHUB_BRANCH /komodo
-# RUN ./zcutil/fetch-params.sh
-ENV HOME /komodo
-RUN cd /komodo && \
-    ./autogen.sh && \
+WORKDIR /komodo
+RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb --with-gui || true && \
     ./zcutil/build.sh -j$(nproc)
+
+FROM alpine:latest
+
+RUN adduser -D -u 1000 komodo
+USER komodo
+VOLUME ["/home/komodo/.komodo"]
+VOLUME ["/home/komodo/.zcash-params"]
+WORKDIR /home/komodo
+COPY --from=builder --chown=komodo ["/komodo/komodod", "/komodo/komodo-cli", "/komodo/zcutil/fetch_params.sh", "/usr/local/bin/"]
+RUN fetch_params
+EXPOSE 7770
+
+
+ENTRYPOINT ["komodod"]
