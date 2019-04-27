@@ -2,9 +2,10 @@ FROM ubuntu:18.04 AS builder
 
 ARG GITHUB_REPO=jl777/komodo.git
 ARG GITHUB_BRANCH=dev
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && \
     apt-get -y dist-upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
+RUN apt-get -y install \
     autoconf \
     automake \
     bsdmainutils \
@@ -33,19 +34,29 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
 RUN git clone https://github.com/$GITHUB_REPO --branch $GITHUB_BRANCH /komodo
 WORKDIR /komodo
 RUN ./autogen.sh && \
-    ./configure --with-incompatible-bdb --with-gui || true && \
+    ./configure --with-incompatible-bdb || true && \
     ./zcutil/build.sh -j$(nproc)
 
-FROM alpine:latest
+FROM ubuntu:18.04
+ARG KUSER=komodo
+ARG KHOME=/home/komodo
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get -y update && \
+    apt-get -y dist-upgrade && \
+    apt-get -y install \
+    libcurl4 \
+    libgomp1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN adduser --disabled-password --gecos "" -home ${KHOME} --shell /bin/bash --uid 1000 ${KUSER}
+#USER ${KUSER}
+RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params}"
+VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
+WORKDIR ${KHOME}
+RUN mkdir -p ${KHOME}/bin
+COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
+#RUN fetch_params
+#EXPOSE 7770
 
-RUN adduser -D -u 1000 komodo
-USER komodo
-VOLUME ["/home/komodo/.komodo"]
-VOLUME ["/home/komodo/.zcash-params"]
-WORKDIR /home/komodo
-COPY --from=builder --chown=komodo ["/komodo/komodod", "/komodo/komodo-cli", "/komodo/zcutil/fetch_params.sh", "/usr/local/bin/"]
-RUN fetch_params
-EXPOSE 7770
 
-
-ENTRYPOINT ["komodod"]
+#ENTRYPOINT ["komodod"]
