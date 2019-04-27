@@ -4,8 +4,8 @@ ARG GITHUB_REPO=jl777/komodo.git
 ARG GITHUB_BRANCH=dev
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && \
-    apt-get -y dist-upgrade
-RUN apt-get -y install \
+    apt-get -y dist-upgrade && \
+    apt-get -y install \
     autoconf \
     automake \
     bsdmainutils \
@@ -30,8 +30,8 @@ RUN apt-get -y install \
     wget \
     zlib1g-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN git clone https://github.com/$GITHUB_REPO --branch $GITHUB_BRANCH /komodo
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    git clone https://github.com/$GITHUB_REPO --branch $GITHUB_BRANCH /komodo
 WORKDIR /komodo
 RUN ./autogen.sh && \
     ./configure --with-incompatible-bdb || true && \
