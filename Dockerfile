@@ -40,8 +40,8 @@ RUN ./autogen.sh && \
 FROM ubuntu:18.04
 ARG KUSER=komodo
 ARG KHOME=/home/komodo
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get -y update && \
+ARG DEBIAN_FRONTEND=noninteractive
+RUN sapt-get -y update && \
     apt-get -y dist-upgrade && \
     apt-get -y install \
     libcurl4 \
