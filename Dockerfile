@@ -57,8 +57,8 @@ RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params,bin}"
 #VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
 WORKDIR ${KHOME}
 COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
+COPY --chown=komodo [entrypoint.sh, bin/]
 #RUN fetch_params
 #EXPOSE 7770
 
-
-#ENTRYPOINT ["komodod"]
+#ENTRYPOINT ["entrypoint.sh"]
