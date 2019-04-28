@@ -41,19 +41,21 @@ FROM ubuntu:18.04
 ARG KUSER=komodo
 ARG KHOME=/home/komodo
 ARG DEBIAN_FRONTEND=noninteractive
-RUN sapt-get -y update && \
+RUN apt-get -y update && \
     apt-get -y dist-upgrade && \
     apt-get -y install \
+    curl \
+    jq \
     libcurl4 \
+    libcurl4-openssl-dev \
     libgomp1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN adduser --disabled-password --gecos "" -home ${KHOME} --shell /bin/bash --uid 1000 ${KUSER}
-#USER ${KUSER}
-RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params}"
-VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
+USER ${KUSER}
+RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params,bin}"
+#VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
 WORKDIR ${KHOME}
-RUN mkdir -p ${KHOME}/bin
 COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
 #RUN fetch_params
 #EXPOSE 7770
