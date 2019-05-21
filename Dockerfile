@@ -29,9 +29,6 @@ RUN apt-get -y update && \
 RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params,bin}"
 #VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
 WORKDIR ${KHOME}
-COPY --from=builder ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
-#COPY --chown=komodo ["entrypoint.sh", "${KHOME}/bin/"]
-#RUN fetch_params
-#EXPOSE 7770
-
-#ENTRYPOINT ["entrypoint.sh"]
+COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
+COPY --chown=komodo ["entrypoint.sh", "${KHOME}/bin/"]
+ENTRYPOINT ["entrypoint.sh"]

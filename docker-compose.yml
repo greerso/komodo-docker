@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  komodod:
+    build:
+      context: komodod
+      dockerfile: Dockerfile
+    image: greerso/komodo-docker:latest
+    networks:
+        - komodo-net
+    ports:
+        - '${P2P_PORT}:7770'
+    volumes:
+        - ~/.komodo:${HOME}/.komodo
+        - ~/.zcash-params:${HOME}/.zcash-params
+    restart: always
+
+networks:
+  docker-net:
+    driver: bridge
