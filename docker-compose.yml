@@ -3,7 +3,6 @@ version: '3.7'
 services:
   komodod:
     build:
-      context: komodod
       dockerfile: Dockerfile
     image: greerso/komodo-docker:latest
     networks:
