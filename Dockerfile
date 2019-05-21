@@ -31,4 +31,4 @@ RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params,bin}"
 WORKDIR ${KHOME}
 COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
 COPY --chown=komodo ["entrypoint.sh", "${KHOME}/bin/"]
-ENTRYPOINT ["entrypoint.sh"]
+#ENTRYPOINT ["bin/entrypoint.sh"]
