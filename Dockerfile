@@ -24,8 +24,8 @@ RUN apt-get -y update && \
     libgomp1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-#RUN adduser --disabled-password --gecos "" -home ${KHOME} --shell /bin/bash --uid 1000 ${KUSER}
-#USER ${KUSER}
+RUN adduser --disabled-password --gecos "" -home ${KHOME} --shell /bin/bash --uid 1000 ${KUSER}
+USER ${KUSER}
 RUN /bin/bash -c "mkdir -p ${KHOME}/{.komodo,.zcash-params,bin}"
 #VOLUME ["${KHOME}/.komodo", "${KHOME}/.zcash-params"]
 WORKDIR ${KHOME}
