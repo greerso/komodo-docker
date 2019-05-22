@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# Check for and fetch zcash zkSNARK parameters
 echo "Fetching the Zcash zkSNARK parameters"
 ./bin/zcutil/fetch-params.sh
 
-if [ ! -e "$HOME/.komodo/komodo.conf" ]; then
+# Check for and create komodo.conf
+if [ ! -e "${HOME}/.komodo/komodo.conf" ]; then
     echo \
         "...Creating komodo.conf"
     echo \
@@ -14,6 +16,11 @@ txindex=1
 bind=${listenip:-127.0.0.1}
 rpcbind=${listenip:-127.0.0.1}" | tee ${HOME}/.komodo/komodo.conf
     cat $HOME/.komodo/komodo.conf
+fi
+
+# Check for and download blockchain bootstrap
+if [ ! -d "${HOME}/.komodo/blocks" ]; then
+    curl -fsL https://bootstrap.dexstats.info/KMD-bootstrap.tar.gz | tar xvf -C ${HOME}/.komodo/
 fi
 
 exec "$@"
