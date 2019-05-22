@@ -8,10 +8,11 @@ services:
     networks:
         - komodo-net
     ports:
-        - '${P2P_PORT}:7770'
+        - '${P2P_PORT}:${P2P_PORT}'
     volumes:
         - ~/.komodo:${HOME}/.komodo
         - ~/.zcash-params:${HOME}/.zcash-params
+    command: ["bin/komodod","-printtoconsole","-pubkey=${PUBKEY}"]
     restart: always
 
 networks:
