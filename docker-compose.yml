@@ -3,8 +3,9 @@ version: '3.7'
 services:
   komodod:
     build:
+      context: ./
       dockerfile: Dockerfile
-    image: greerso/komodo-docker:latest
+#    image: greerso/komodo-docker:latest
     networks:
         - komodo-net
     ports:
@@ -12,9 +13,9 @@ services:
     volumes:
         - ~/.komodo:${HOME}/.komodo
         - ~/.zcash-params:${HOME}/.zcash-params
-    command: ["bin/komodod","-printtoconsole","-pubkey=${PUBKEY}"]
+ #   command: ["bin/komodod","-printtoconsole","-pubkey=${PUBKEY}"]
     restart: always
 
 networks:
-  docker-net:
+  komodo-net:
     driver: bridge

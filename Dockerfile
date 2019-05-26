@@ -21,7 +21,8 @@ RUN apt-get -y update && \
     curl \
     jq \
     libcurl3-gnutls-dev \
-    libgomp1 && \
+    libgomp1 \
+    pwgen && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN adduser --disabled-password --gecos "" -home ${KHOME} --shell /bin/bash --uid 1000 ${KUSER}
@@ -32,4 +33,4 @@ WORKDIR ${KHOME}
 COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
 COPY --chown=komodo ["entrypoint.sh", "${KHOME}/bin/"]
 ENTRYPOINT ["bin/entrypoint.sh"]
-CMD ["bin/komodod","-printtoconsole"]
+#CMD ["bin/komodod","-printtoconsole"]
