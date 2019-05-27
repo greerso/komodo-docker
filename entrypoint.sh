@@ -11,8 +11,8 @@ if [ ! -e "${HOME}/.komodo/komodo.conf" ]; then
 rpcpassword=${RPC_PASSWORD:-`pwgen -s 64 1`}
 daemon=0
 txindex=1
-bind=${listenip}:-127.0.0.1
-rpcbind=${listenip}:-127.0.0.1" | tee ${HOME}/.komodo/komodo.conf
+bind=127.0.0.1
+rpcbind=127.0.0.1" | tee ${HOME}/.komodo/komodo.conf
 else
     echo "existing ${HOME}/.komodo/komodo.conf found"
     cat ${HOME}/.komodo/komodo.conf
