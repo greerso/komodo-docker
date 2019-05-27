@@ -33,4 +33,4 @@ WORKDIR ${KHOME}
 COPY --from=builder --chown=komodo ["/komodo/src/komodod", "/komodo/src/komodo-cli", "/komodo/zcutil/fetch-params.sh", "${KHOME}/bin/"]
 COPY --chown=komodo ["entrypoint.sh", "${KHOME}/bin/"]
 ENTRYPOINT ["bin/entrypoint.sh"]
-#CMD ["bin/komodod","-printtoconsole"]
+CMD ["bin/komodod","-printtoconsole"]
